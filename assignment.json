@@ -1,0 +1,222 @@
+{
+    "info": {
+        "name": "Reqres Assignment Collection",
+        "_postman_id": "reqres-assignment-1234",
+        "description": "Postman collection for API testing assignment using reqres.in",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "GET Users (page 2)",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "x-api-key",
+                        "value": "{{apiKey}}"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/users?page=2",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "users"
+                    ],
+                    "query": [
+                        {
+                            "key": "page",
+                            "value": "2"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "POST Create User",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "x-api-key",
+                        "value": "{{apiKey}}"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"name\": \"{{randomName}}\", \"job\": \"{{randomJob}}\"}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/users",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "users"
+                    ]
+                }
+            },
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let randomName = `User${Math.floor(Math.random() * 1000)}`;",
+                            "let randomJob = `Tester${Math.floor(Math.random() * 1000)}`;",
+                            "pm.variables.set('randomName', randomName);",
+                            "pm.variables.set('randomJob', randomJob);"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "let response = pm.response.json();",
+                            "console.log('Created user ID is (mock):', response.id);",
+                            "// For demonstration, manually set createdUserId = 7 since reqres doesn't persist data",
+                            "pm.collectionVariables.set('createdUserId', 7);",
+                            "",
+                            "pm.test('Status code is 201', function () {",
+                            "    pm.response.to.have.status(201);",
+                            "});",
+                            "",
+                            "pm.test('This test will fail on purpose', function () {",
+                            "    pm.response.to.not.have.status(201);",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "response": []
+        },
+        {
+            "name": "GET Created User by ID",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "x-api-key",
+                        "value": "{{apiKey}}"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/users/{{createdUserId}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "users",
+                        "{{createdUserId}}"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "PUT Update User",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "x-api-key",
+                        "value": "{{apiKey}}"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"name\": \"UpdatedName\", \"job\": \"UpdatedJob\"}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/users/2",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "users",
+                        "2"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "PATCH Update User",
+            "request": {
+                "method": "PATCH",
+                "header": [
+                    {
+                        "key": "x-api-key",
+                        "value": "{{apiKey}}"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"job\": \"PartiallyUpdatedJob\"}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/users/2",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "users",
+                        "2"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "DELETE User",
+            "request": {
+                "method": "DELETE",
+                "header": [
+                    {
+                        "key": "x-api-key",
+                        "value": "{{apiKey}}"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/users/2",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "users",
+                        "2"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
+}
